@@ -15,10 +15,12 @@ if you haven't installed Docker already, follow their official documentation for
 
 
 ## Docker Setup
-Download the repository by running 
+Download the repository by running :
+
 ```
 git clone https://github.com/ImSentient/InternProject.git
 ```
+<small><small><u>**NOTE**</u>: if you are on windows, please run `git config --global core.autocrlf false` first before cloning. </small></small>
 
 Then, navigate to the repository and run
 
@@ -37,7 +39,7 @@ If the docker container pass their health checks (as they should), then you'll n
 
 
 When a server is inserted and no devices are online (or exist), then status is set to 'error'
-```
+```js
 POST /api/servers/
 {
   "name": "Greg's Server"
@@ -59,7 +61,7 @@ GET /api/servers/
 ### Device Creation
 
 Inserting a new device into the server is extremely easy, as shown below. The example alos shows that when a new server is inserted, it'll be assigned any online device available.
-```
+```js
 POST /api/devices/
 {
   'name': 'victors device', 
