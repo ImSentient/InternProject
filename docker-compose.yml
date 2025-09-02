@@ -20,8 +20,9 @@ services:
       retries: 5
 
   web:
+    container_name: django_app
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    #command: python manage.py runserver 0.0.0.0:8000 #isn't needed because handled in Dockerfil
     volumes:
       - .:/workspace
     ports:
