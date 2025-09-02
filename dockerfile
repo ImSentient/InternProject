@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
+RUN chmod +x /workspace/auto_migrate.sh
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/workspace/auto_migrate.sh"]
