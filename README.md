@@ -65,7 +65,7 @@ Inserting a new device into the server is extremely easy, as shown below. The ex
 POST /api/devices/
 {
   'name': 'victors device', 
-  'is_online': true
+  'is_online': True
 }
 
 POST /api/servers/
@@ -101,7 +101,8 @@ GET /api/servers/
 ---
 ### Changing Server Status
 If you happen to have a server which is stuck in an error status, no worries! Send a patch request to the API endpoint of the specific server and it'll acquire an online device as well, assuming there are any availabe.
-```
+
+```js
 PATCH /api/servers/1/
 {
   'status': 'starting'
