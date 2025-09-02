@@ -20,7 +20,6 @@ Download the repository by running :
 ```
 git clone https://github.com/ImSentient/InternProject.git
 ```
-<small><small><u>**NOTE**</u>: if you are on windows, please run `git config --global core.autocrlf false` first before cloning. Auto migration will **NOT** work otherwise.</small></small>
 
 Then, navigate to the repository and run
 
@@ -31,11 +30,12 @@ Then, navigate to the repository and run
 ```
 
 
-If the docker container pass their health checks (as they should), then you'll now have a local API which you can interact with through https://127.0.0.1:8000/api/
+If the docker container pass their health checks (as they should), then you'll now have a local API which you can interact with through http://127.0.0.1:8000/api/
 
 ## Design Considerations
 
-- Uses docker containers to isolate both an instance of Django and of PostgreSQL (which has a persistant volume) and auto-migrates the Django models to the DB with a custom auto_migrate.sh shell script, which is also why autocrlf needs to be disabled if on a windows machine. 
+- Uses docker containers to isolate both an instance of Django and of PostgreSQL (which has a persistant volume).
+- Uses a Docker entrypoint script to auto-migrate Models to DB on build. 
 - The Django API is accessible through 127.0.0.1 port 8000, and the PostgreSQL is accessible through port 5432. 
 - Transition logic handled in views.py of the api app.
 - That's all the major bulletpoints i can think of.
