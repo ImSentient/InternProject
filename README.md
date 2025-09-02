@@ -20,7 +20,7 @@ Download the repository by running :
 ```
 git clone https://github.com/ImSentient/InternProject.git
 ```
-<small><small><u>**NOTE**</u>: if you are on windows, please run `git config --global core.autocrlf false` first before cloning. </small></small>
+<small><small><u>**NOTE**</u>: if you are on windows, please run `git config --global core.autocrlf false` first before cloning. Auto migration will **NOT** work otherwise.</small></small>
 
 Then, navigate to the repository and run
 
@@ -31,8 +31,14 @@ Then, navigate to the repository and run
 ```
 
 
-
 If the docker container pass their health checks (as they should), then you'll now have a local API which you can interact with through https://127.0.0.1:8000/api/
+
+## Design Considerations
+
+- Uses docker containers to isolate both an instance of Django and of PostgreSQL (which has a persistant volume) and auto-migrates the Django models to the DB with a custom auto_migrate.sh shell script, which is also why autocrlf needs to be disabled if on a windows machine. 
+- The Django API is accessible through 127.0.0.1 port 8000, and the PostgreSQL is accessible through port 5432. 
+- Transition logic handled in views.py of the api app.
+- That's all the major bulletpoints i can think of.
 
 ## API Examples
 ### Server Creation
@@ -65,7 +71,7 @@ Inserting a new device into the server is extremely easy, as shown below. The ex
 POST /api/devices/
 {
   'name': 'victors device', 
-  'is_online': True
+  'is_online': true
 }
 
 POST /api/servers/
@@ -101,7 +107,6 @@ GET /api/servers/
 ---
 ### Changing Server Status
 If you happen to have a server which is stuck in an error status, no worries! Send a patch request to the API endpoint of the specific server and it'll acquire an online device as well, assuming there are any availabe.
-
 ```js
 PATCH /api/servers/1/
 {
