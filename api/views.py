@@ -34,7 +34,6 @@ class ServerDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ServerSerializer
 
     def perform_update(self, serializer):
-        print(serializer.validated_data)
         server = self.get_object().status #Server.objects.get(pk=serializer.validated_data.get("id")).status
         new_server = serializer.validated_data.get("status")
 
@@ -45,7 +44,8 @@ class ServerDetailView(generics.RetrieveUpdateDestroyAPIView):
                                         ['error', 'starting']]:
             raise ValidationError(f"Invalid transition! {server} -> {new_server} for server {self.get_object().subdomain}")
         else:
-
+            if new_server == 'stopped':
+                serializer.save(device=None)
             if new_server == 'starting':
                 devices = Device.objects.filter(is_online=True)
                 if len(devices) == 0:
